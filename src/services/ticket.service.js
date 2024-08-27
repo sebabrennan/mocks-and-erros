@@ -26,12 +26,15 @@ export default class TicketService extends Services {
           if (prodInCart.quantity <= prodDB.stock) {
             const amount = prodInCart.quantity * prodDB.price;
             amountAcc += amount;
+            const updateStock = prodDB.stock - prodInCart.quantity
+            await prodService.update(idProd, { stock: updateStock })
+            
           } else return null;
+          
         }
       }
 
       const ticket = await this.dao.create({
-        code: `${Math.floor(Math.random() * 1000)}`,
         purchase_datetime: new Date().toLocaleString(),
         amount: amountAcc,
         purchaser: user.email,
