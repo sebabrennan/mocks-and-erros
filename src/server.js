@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import { __dirname } from "./utils.js";
+import { __dirname } from "./utils/utils.js";
 import "./db/dbConfig.js";
 import { configSession } from "./config/config.session.js";
 import { errorHandler } from "./middlewares/errorHandler.js";

@@ -2,7 +2,7 @@ import Services from "./class.services.js";
 import UserDaoMongo from "../daos/user.dao.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword } from "../utils/utils.js";
 import CartDaoMongo from "../daos/cart.dao.js";
 import UserRepository from "../repository/user.repository.js";
 const userRepository = new UserRepository();
