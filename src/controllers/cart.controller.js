@@ -1,6 +1,6 @@
 import Controllers from "./class.controller.js";
 import CartService from '../services/cart.services.js';
-import { createResponse } from "../utils/utils.js";
+import httpResponse from "../utils/http.response.js";
 const cartService = new CartService();
 
 export default class CartController extends Controllers{
@@ -15,8 +15,7 @@ export default class CartController extends Controllers{
         cart,
         idProd,
       );
-      if (!newProdToUserCart) createResponse(res, 404, { msg: "Error add product to cart" });
-      else createResponse(res, 200, newProdToUserCart);
+      !newProdToUserCart ? httpResponse.NotFound(res, newProdToUserCart) : httpResponse.Ok(res, newProdToUserCart)
     } catch (error) {
       next(error);
     }
@@ -30,8 +29,7 @@ export default class CartController extends Controllers{
         idCart,
         idProd,
       );
-      if (!delProdToUserCart) createResponse(res, 404, { msg: "cart or prod not existant" });
-      else createResponse(res, 200, {msg: `product ${idProd} deleted to cart`});
+      !delProdToUserCart ? httpResponse.NotFound(res, delProdToUserCart) : httpResponse.Ok(res, delProdToUserCart)
     } catch (error) {
       next(error);
     }
@@ -47,8 +45,7 @@ export default class CartController extends Controllers{
         idProd,
         quantity
       );
-      if (!updateProdQuantity) createResponse(res, 404, { msg: "cart or prod not existant" });
-      else createResponse(res, 200, updateProdQuantity);
+      !updateProdQuantity ? httpResponse.NotFound(res, updateProdQuantity) : httpResponse.Ok(res, updateProdQuantity)
     } catch (error) {
       next(error);
     }
@@ -60,11 +57,9 @@ export default class CartController extends Controllers{
       const clearCart = await this.service.clearCart(
         idCart,
       );
-      if (!clearCart) createResponse(res, 404, { msg: "Error clear cart" });
-      else createResponse(res, 200, clearCart);
+      !clearCart ? httpResponse.NotFound(res, clearCart) : httpResponse.Ok(res, clearCart)
     } catch (error) {
       next(error);
     }
   };
-
 }

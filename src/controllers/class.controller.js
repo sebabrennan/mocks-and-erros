@@ -1,4 +1,4 @@
-import { createResponse } from "../utils/utils.js";
+import httpResponse from "../utils/http.response.js"
 
 export default class Controllers {
     constructor(service) {
@@ -8,7 +8,7 @@ export default class Controllers {
     getAll = async(req, res, next) =>{
         try {
           const data = await this.service.getAll();
-          createResponse(res, 200, data);
+          httpResponse.Ok(res, data);
         } catch (error) {
           next(error);
         }
@@ -18,8 +18,7 @@ export default class Controllers {
         try {
           const { id } = req.params;
           const data = await this.service.getById(id);
-          if(!data) createResponse(res, 404, data)
-          else createResponse(res, 200, data);
+          !data ? httpResponse.NotFound(res, data) : httpResponse.Ok(res, data);
         } catch (error) {
           next(error);
         }
@@ -28,7 +27,7 @@ export default class Controllers {
       create = async(req, res, next) => {
         try {
           const data = await this.service.create(req.body);
-          createResponse(res, 200, data);
+          httpResponse.Ok(res, data);
         } catch (error) {
           next(error);
         }
@@ -38,8 +37,7 @@ export default class Controllers {
         try {
           const { id } = req.params;
           const data = await this.service.update(id, req.body);
-          if(!data) createResponse(res, 404, data)
-            else createResponse(res, 200, data);
+          !data ? httpResponse.NotFound(res, data) : httpResponse.Ok(res, data);
         } catch (error) {
           next(error);
         }
@@ -49,8 +47,7 @@ export default class Controllers {
         try {
           const { id } = req.params;
           const data = await this.service.delete(id);
-          if(!data) createResponse(res, 404, data)
-            else createResponse(res, 200, data);
+          !data ? httpResponse.NotFound(res, data) : httpResponse.Ok(res, data);
         } catch (error) {
           next(error);
         }

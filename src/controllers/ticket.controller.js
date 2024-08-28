@@ -1,6 +1,6 @@
 import Controllers from "./class.controller.js";
 import TicketService from "../services/ticket.service.js";
-import { createResponse } from "../utils/utils.js";
+import httpResponse from "../utils/http.response.js";
 const ticketService = new TicketService();
 
 export default class TicketController extends Controllers {
@@ -12,8 +12,7 @@ export default class TicketController extends Controllers {
     try {
       const user = req.user;
       const ticket = await ticketService.generateTicket(user);
-      if(!ticket) createResponse(res, 404, 'Error generate ticket');
-      else createResponse(res, 200, ticket);
+      !ticket ? httpResponse.NotFound(res, ticket) : httpResponse.Ok(res, ticket);
     } catch (error) {
       next(error);
     }
